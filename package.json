@@ -1,6 +1,6 @@
 {
   "name": "pc-layout",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "license": "ISC",
   "main": "dist/web-layout.common.js",
@@ -17,6 +17,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",
+    "pc-layout": "^0.1.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
   },

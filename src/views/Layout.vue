@@ -8,6 +8,10 @@
 </template>
 <script>
 import Portal from '@/components/portal'
+// import Vue from 'vue'
+// import Portal from 'pc-layout'
+// import 'pc-layout/dist/web-layout.css'
+// Vue.use(Portal)
 export default {
   data () {
     return {
@@ -24,7 +28,51 @@ export default {
         code: 'qa51',
         title: '信息'
       }],
-      sideMenuConfig: {
+
+      tabList: [],
+      activeTab: this.$route.name
+    }
+  },
+  created () {
+    setTimeout(() => {
+      // this.topMenuList = [{
+      //   code: 'sas',
+      //   title: '供应商管理',
+      //   icon: 'el-icon-menu'
+      // }, {
+      //   code: 'we',
+      //   title: '不知道叫什么',
+      //   icon: 'el-icon-menu'
+      // }]
+    }, 15000)
+    this.addTab(this.$route)
+  },
+  computed: {
+    headerConfig () {
+      return {
+        props: {
+          systemName: '系统名称ad',
+          menuList: this.topMenuList,
+          defaultActive: 'q32a',
+          userIcon: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+          dropMenus: [{
+            code: 'ad',
+            title: '用户信息'
+          }, {
+            code: 'logout',
+            title: '退出登录'
+          }]
+        },
+        on: {
+          select: (index) => {
+            console.log(2222, index)
+          },
+          command: (name) => { console.log('下拉', name) }
+        }
+      }
+    },
+    sideMenuConfig () {
+      return {
         props: {
           menuList: [{
             code: 'qa',
@@ -63,54 +111,13 @@ export default {
             title: '不知道叫什么',
             icon: 'el-icon-menu'
           }],
-          defaultActive: this.$route.name,
+          defaultActive: this.activeTab,
           backgroundColor: '#212529',
           textColor: '#ADB5BD',
           activeTextColor: '#fff'
         },
         on: {
           open: (name) => { console.log('下22拉', name) }
-        }
-      },
-      tabList: [],
-      activeTab: ''
-    }
-  },
-  created () {
-    setTimeout(() => {
-      // this.topMenuList = [{
-      //   code: 'sas',
-      //   title: '供应商管理',
-      //   icon: 'el-icon-menu'
-      // }, {
-      //   code: 'we',
-      //   title: '不知道叫什么',
-      //   icon: 'el-icon-menu'
-      // }]
-    }, 15000)
-    this.addTab(this.$route)
-  },
-  computed: {
-    headerConfig () {
-      return {
-        props: {
-          systemName: '系统名称ad',
-          menuList: this.topMenuList,
-          defaultActive: 'q32a',
-          userIcon: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-          dropMenus: [{
-            code: 'ad',
-            title: '用户信息'
-          }, {
-            code: 'logout',
-            title: '退出登录'
-          }]
-        },
-        on: {
-          select: (index) => {
-            console.log(2222, index)
-          },
-          command: (name) => { console.log('下拉', name) }
         }
       }
     },
