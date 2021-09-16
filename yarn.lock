@@ -944,6 +944,17 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
+"@leichen/layout@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@leichen/layout/-/layout-1.0.2.tgz#2f1d9dcbba6133903851a22c4cae61f0d9e888e4"
+  integrity sha512-76DBEqhusG8iD2njVCcKHVZOscZUzyUVJfZb1NT61B/wfVBKi3QtQPuEZpa+hhf88LtzDrkSSd1HxuYf3ebERA==
+  dependencies:
+    core-js "^3.6.5"
+    element-ui "^2.15.6"
+    pc-layout "^0.1.0"
+    vue "^2.6.11"
+    vue-router "^3.2.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

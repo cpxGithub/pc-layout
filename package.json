@@ -1,6 +1,6 @@
 {
-  "name": "pc-layout",
-  "version": "0.1.1",
+  "name": "@leichen/layout",
+  "version": "1.0.2",
   "private": false,
   "license": "ISC",
   "main": "dist/web-layout.common.js",
@@ -12,9 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cpxGithub/pc-layout.git"
+    "url": "git+https://github.com/cpxGithub/pc-layout.git"
   },
   "dependencies": {
+    "@leichen/layout": "^1.0.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",
     "pc-layout": "^0.1.0",
@@ -37,5 +38,14 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
-  }
+  },
+  "description": "web布局",
+  "bugs": {
+    "url": "https://github.com/cpxGithub/pc-layout/issues"
+  },
+  "homepage": "https://github.com/cpxGithub/pc-layout#readme",
+  "keywords": [
+    "layout"
+  ],
+  "author": ""
 }
