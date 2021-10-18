@@ -5,7 +5,9 @@
  * props:
  *  headerConfig: 顶部配置，见src/components/header/Header.vue组件
  *  sideMenuConfig: 侧边菜单栏配置，见src/components/menu/Menu.vue组件
- *  tabConfig:
+ *  tabConfig: tab页签配置，见src/components/tab/Tab.vue组件
+ *  keepAlive: 是否使用keepAlive
+ *  linkType: 路由跳转方式 name: 以路由名称跳转，path: 以路由路径跳转
  */
 import SideMenu from '@/components/menu'
 import TopHeader from '@/components/header'
@@ -24,11 +26,34 @@ export default {
     tabConfig: {
       type: Object,
       default: () => {}
+    },
+    keepAlive: {
+      type: Boolean,
+      default: true
+    },
+    linkType: {
+      type: String,
+      default: 'name'
+    }
+  },
+  provide () {
+    return {
+      linkType: this.linkType,
+      parent: this
     }
   },
   data () {
     return {
-      isCollapse: false
+      isCollapse: false,
+      cachePages: []
+    }
+  },
+  created () {
+    this.addCachePage(this.$route.meta.componentName)
+  },
+  watch: {
+    $route (route) {
+      this.addCachePage(route.meta.componentName)
     }
   },
   components: {
@@ -37,6 +62,15 @@ export default {
     XsTab
   },
   methods: {
+    addCachePage (name) {
+      // 添加缓存页面
+      if (!name) return
+      this.cachePages.push(name)
+    },
+    removeCachePage (name) {
+      // 移除缓存页面
+      this.cachePages = this.cachePages.filter(item => item !== name)
+    },
     renderHeader () {
       // 渲染顶部
       const { props = {}, on } = this.headerConfig || {}
@@ -65,6 +99,9 @@ export default {
         }
       }, [
         h('el-scrollbar', {
+          props: {
+            native: false
+          },
           style: {
             height: 'calc(100% - 40px)'
           }
@@ -95,10 +132,36 @@ export default {
       return h('side-menu', {
         class: 'el-menu-vertical',
         attrs: {
-          ...props,
-          collapse: this.isCollapse
+          collapse: this.isCollapse,
+          backgroundColor: '#212529',
+          textColor: '#ADB5BD',
+          activeTextColor: '#fff',
+          ...props
         },
-        on
+        on: {
+          select: this.handleSelect,
+          ...on
+        }
+      })
+    },
+    handleSelect (index) {
+      // select事件触发回调
+      if (this.$route.name === index) return
+      this.link(index)
+      this.$emit('select', index)
+    },
+    link (to) { // 跳转
+      const route = this.linkType === 'name' ? {
+        name: to
+      } : {
+        path: to
+      }
+      this.$router.push(route, route => {
+        this.$refs.tab.addTab({
+          label: route.meta.title,
+          name: this.linkType === 'name' ? route.name : route.path,
+          meta: route.meta
+        })
       })
     },
     renderMain () {
@@ -110,13 +173,36 @@ export default {
           attrs: {
             ...props
           },
+          ref: 'tab',
           on
         }),
         h('div', {
           class: 'content'
         }, [
+          this.renderRouterView()
+        ])
+      ])
+    },
+    renderRouterView () {
+      // 是否使用keep-alive
+      const h = this.$createElement
+      let child = h('router-view')
+      if (this.keepAlive) {
+        child = h('keep-alive', {
+          props: {
+            include: this.cachePages
+          }
+        }, [
           h('router-view')
         ])
+      }
+      return h('transition', {
+        props: {
+          name: 'fade',
+          mode: 'out-in'
+        }
+      }, [
+        child
       ])
     }
   },
@@ -137,6 +223,25 @@ export default {
 $header-height: 60px; // 顶部导航栏高度，element-ui默认是60px
 .container {
   height: 100%;
+  box-sizing: border-box;
+  /* fade */
+  .fade-leave-active,
+  .fade-enter-active {
+    transition: all 0.5s;
+  }
+
+  .fade-enter {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  .fade-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+::v-deep .el-scrollbar__wrap {
+  overflow-x: hidden;
 }
 .main-container {
   height: calc(100% - #{$header-height});
@@ -145,7 +250,7 @@ $header-height: 60px; // 顶部导航栏高度，element-ui默认是60px
   height: calc(100% - 40px);
   overflow: auto;
   box-sizing: border-box;
-  padding: 12px 0;
+  padding: 10px;
   background: #f0f0f0;
 }
 .el-aside {
@@ -171,8 +276,7 @@ $header-height: 60px; // 顶部导航栏高度，element-ui默认是60px
   }
 }
 .el-main {
-  padding: 0 20px;
+  padding: 0;
   overflow: hidden;
-  background: #fff;
 }
 </style>

@@ -3607,7 +3607,7 @@ var Headervue_type_template_id_0100536f_scoped_true_staticRenderFns = []
     systemIcon: {
       // 系统图标
       type: String,
-      default: 'https://front-xps-cdn.xsyx.xyz/2020/05/09/2118802622.png'
+      default: 'https://tse1-mm.cn.bing.net/th?id=OIP._SRhcWEOl7fBDC56IUzdrQHaNK&w=62&h=110&c=8&rs=1&qlt=90&o=6&dpr=2&pid=3.1&rm=2'
     },
     systemName: String,
     // 系统名称

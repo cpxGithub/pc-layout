@@ -15,10 +15,12 @@
       ></top-menu>
     </div>
     <div class="right">
+      <span class="user-name" v-if="userName">{{ userName }}</span>
       <el-dropdown v-on="$listeners">
-        <span class="el-dropdown-link">
+        <div class="el-dropdown-link user-content">
           <el-avatar :src="userIcon"></el-avatar>
-        </span>
+          <i class="el-icon-caret-bottom" v-if="dropMenus.length"></i>
+        </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
             v-for="item in dropMenus"
@@ -59,7 +61,7 @@ export default {
   props: {
     systemIcon: { // 系统图标
       type: String,
-      default: 'https://front-xps-cdn.xsyx.xyz/2020/05/09/2118802622.png'
+      default: 'https://tse1-mm.cn.bing.net/th?id=OIP._SRhcWEOl7fBDC56IUzdrQHaNK&w=62&h=110&c=8&rs=1&qlt=90&o=6&dpr=2&pid=3.1&rm=2'
     },
     systemName: String, // 系统名称
     backgroundColor: { // 菜单背景色
@@ -74,6 +76,7 @@ export default {
       type: String,
       default: '#fff'
     },
+    userName: String, // 用户名称
     userIcon: String, // 用户图标
     dropMenus: { // 下拉菜单
       type: Array,
@@ -92,6 +95,7 @@ export default {
   align-items: center;
   background: #111518;
   color: #E9ECEF;
+  padding: 0 10px;
   ::v-deep .el-menu-item.is-active {
     background-color: #343A40 !important;
     border-bottom: 0;
@@ -107,9 +111,15 @@ export default {
     align-items: center;
     width: 210px;
   }
-  .left {
+  .left, .right, .user-content {
     display: flex;
     align-items: center;
+  }
+  .user-name {
+    margin-right: 10px;
+  }
+  .user-content {
+    color: #fff;
   }
 }
 </style>

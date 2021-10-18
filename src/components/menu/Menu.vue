@@ -16,6 +16,7 @@
 export default {
   name: 'Menu',
   inheritAttrs: false,
+  inject: ['linkType'],
   props: {
     menuList: {
       type: Array,
@@ -66,22 +67,16 @@ export default {
         }, [this.renderTilte(data)]),
         this.renderMenu(data.children)
       ])
-    },
-    handleSelect (index) {
-      // select事件触发回调
-      if (this.$route.name === index) return
-      this.$emit('select', index)
-      this.$router.push({ name: index })
     }
   },
   render (h) {
+    if (!this.menuList.length) return
     const { $attrs, $listeners } = this
     return h('el-menu', {
       props: {
         ...$attrs
       },
       on: {
-        select: this.handleSelect,
         ...$listeners
       }
     }, this.renderMenu(this.menuList))
